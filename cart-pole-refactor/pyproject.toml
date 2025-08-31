@@ -1,0 +1,15 @@
+[project]
+name = "cart-pole-refactor"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "gymnasium[other]>=1.2.0",
+    "matplotlib>=3.10.5",
+    "mlflow>=3.2.0",
+    "plotext>=5.3.2",
+    "pygame>=2.6.1",
+    "scikit-learn>=1.7.1",
+]
+
