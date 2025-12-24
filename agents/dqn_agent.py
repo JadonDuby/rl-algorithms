@@ -29,22 +29,6 @@ device = torch.device(
     "cpu"
 )
 
-
-# class ReplayMemory(object):
-
-#     def __init__(self, capacity):
-#         self.memory = deque([], maxlen=capacity)
-
-#     def push(self, *args):
-#         """Save a transition"""
-#         self.memory.append(Transition(*args))
-
-#     def sample(self, batch_size):
-#         return random.sample(self.memory, batch_size)
-
-#     def __len__(self):
-#         return len(self.memory)
-
 class DQN(nn.Module):
 
     def __init__(self, n_observations, n_actions):
@@ -66,7 +50,7 @@ class DeepQLearningAgent(BaseAgent):
         self.env = env
         self.schedule = epsilon_schedule
         self.action_space = env.action_space    
-        self.n_actions = self.action_space.n    
+        self.n_actions = self.action_space.n
         self.BATCH_SIZE = 128
         self.GAMMA = 0.99
         self.EPS_START = 0.9
@@ -80,7 +64,7 @@ class DeepQLearningAgent(BaseAgent):
         self.target_net = DQN(n_observations, self.n_actions).to(device)
         self.target_net.load_state_dict(self.policy_net.state_dict())
         self.optimizer = optim.AdamW(self.policy_net.parameters(), lr=self.LR, amsgrad=True)
-        self.memory = ReplayBuffer(10000)
+        self.memory = ReplayBuffer(10_000)
 
     def preprocess_state(self, state):
         return torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
@@ -165,3 +149,4 @@ class DeepQLearningAgent(BaseAgent):
         for key in policy_net_state_dict:
             target_net_state_dict[key] = policy_net_state_dict[key]*self.TAU + target_net_state_dict[key]*(1-self.TAU)
         self.target_net.load_state_dict(target_net_state_dict)
+        return loss
