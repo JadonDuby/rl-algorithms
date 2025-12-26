@@ -1,6 +1,8 @@
 import os
 import numpy as np
 from gymnasium.wrappers import RecordEpisodeStatistics, RecordVideo
+# from gymnasium.wrappers.vector import RecordEpisodeStatistics
+
 import imageio 
 
 class PolicyEvaluator:
@@ -64,3 +66,4 @@ class PolicyEvaluator:
         print(file_name)
         imageio.mimsave(f"{self.record_dir}/{file_name}", frames, fps=60)
         return truncated, frames, env
+

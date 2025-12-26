@@ -25,13 +25,8 @@ class ReplayBuffer:
     def sample(self, batch_size):
         transitions = random.sample(self.memory, batch_size)
         batch = Transition(*zip(*transitions))
-
-        # Handle non-final next states
         # print(f"{batch=}")
         # print(f"{batch.state=}")
-        non_final_mask = torch.tensor(tuple(s is not None for s in batch.next_state), 
-                                      device=self.device, dtype=torch.bool)
-        
         # Find the shape of a valid state
         state_shape = np.array([s for s in batch.next_state if s is not None][0]).shape
         

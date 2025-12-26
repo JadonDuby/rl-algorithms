@@ -1,6 +1,5 @@
 from exploration.base_schedule import BaseSchedule
 import math
-from evaluation import policy_evaluator
 
 class ExponentialDecaySchedule(BaseSchedule):
     def __init__(self, epsilon_start=1.0, epsilon_end=0.05, decay_rate=0.001):
