@@ -101,6 +101,7 @@ class SwingUpEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
         self.theta_threshold_radians = 12 * 2 * math.pi / 360
         self.x_threshold = 3.2
         self.counter = 0
+        self.up = False
 
         # Angle limit set to 2 * theta_threshold_radians so failing observation
         # is still within bounds.
@@ -165,18 +166,23 @@ class SwingUpEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
         terminated = bool(
             x < -self.x_threshold
             or x > self.x_threshold
+            or abs(theta_dot) > 12
             # or theta < -self.theta_threshold_radians
             # or theta > self.theta_threshold_radians
         )
 
-        truncated = bool(self.counter >= 300)
-        print(f"{self.counter=}")
-        print(f"{truncated=}")
+        truncated = bool(self.counter >= 500)
         self.counter += 1
 
         if not terminated:
             # reward = 1.0
-            reward = 1/3*math.pow(2+math.cos(theta),2) - 0.2*math.pow(math.cos(theta_dot), 2) - 0.5*math.pow(x,2) + np.sign(math.cos(theta)) - 100*int(terminated)
+            reward = (
+                1/3*math.pow(2+math.cos(theta),2)
+                - 0.2*math.pow(math.cos(theta_dot), 2)
+                - 0.5*math.pow(x,2) 
+                + np.sign(math.cos(theta))
+                - 100*int(terminated)
+            )
             # reward = -(math.cos(theta)**2 + 0.1 * theta_dot**2 + 0.001*action**2)
 
         elif self.steps_beyond_terminated is None:
