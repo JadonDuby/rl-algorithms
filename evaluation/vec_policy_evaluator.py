@@ -6,8 +6,8 @@ from gymnasium.wrappers.vector import RecordEpisodeStatistics
 import imageio 
 
 class VecPolicyEvaluator:
-    def __init__(self, envs, agent, record_dir=None, file_name = None, render_mode="rgb_array"):
-        self.env = envs
+    def __init__(self, env, agent, record_dir=None, file_name = None, render_mode="rgb_array"):
+        self.env = env
         self.agent = agent
         self.record_dir = record_dir
         self.render_mode = render_mode
@@ -35,7 +35,7 @@ class VecPolicyEvaluator:
 
             print(f"Episode {episode_num + 1}: {step_count} steps, reward = {episode_reward}")
 
-        env.close()
+        # env.close()
 
         # Print summary statistics
         print(f'\nEvaluation Summary:')

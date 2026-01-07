@@ -86,6 +86,7 @@ class VecTrainer:
                     )
                 if dones.any():
                     for cb in self.callbacks:
+                        print(f"{self.callbacks}=")
                         ep += dones.sum()
                         # reuse the last context. or else we lost the most recent step
                         # print(f"{info=}")

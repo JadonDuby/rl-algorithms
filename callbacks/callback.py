@@ -10,7 +10,7 @@ class PrintRewardCallback(Callback):
         print(f"Episode {episode} finished with reward {logs['total_reward']}")
 
 class EvaluationCallback(Callback):
-    def __init__(self, env, agent, policy):
+    def __init__(self, env, agent, policy=0):
         self.env = env
         self.agent = agent
         self.policy = policy

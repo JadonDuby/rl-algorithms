@@ -1,6 +1,16 @@
+from dataclasses import dataclass
+from typing import Any
+
+@dataclass
+class CallbackContext:
+    env: Any
+    agent: Any | None = None
+
+
 class Callback:
     """Base class for RL training callbacks."""
-
+    def __init__(self, ctx: CallbackContext):
+        self.ctx = ctx
     def on_train_begin(self, logs=None):
         """Called at the start of training."""
         pass
