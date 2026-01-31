@@ -6,7 +6,6 @@ class CallbackContext:
     env: Any
     agent: Any | None = None
 
-
 class Callback:
     """Base class for RL training callbacks."""
     def __init__(self, ctx: CallbackContext):

@@ -6,10 +6,11 @@ from pprint import pprint
 
 
 class VecEvaluationCallback(Callback):
-    def __init__(self, ctx: CallbackContext):
+    def __init__(self, *, ctx: CallbackContext, eval_interval: int=200):
         super().__init__(ctx)
         self.env = self.ctx.env
         self.agent = self.ctx.agent
+        self.eval_interval = eval_interval
 
     def set_trainer(self, trainer):
         self.trainer = trainer
@@ -17,6 +18,7 @@ class VecEvaluationCallback(Callback):
     # def on_episode_end(self, ep, episode_duration, interval = 100, eval_episodes = 5, step=None, logs=None):
     def on_episode_end(self, ctx, interval = 50, eval_episodes = 1):
         ep=ctx.episode
+        interval = self.eval_interval
         if ep % interval == 0 and ep!=0:
             # evaluator = PolicyEvaluator(env=self.env, agent=self.agent, record_dir=f"eval/policy_{self.policy}/inter_train_eval/")
             evaluator = VecPolicyEvaluator(env=self.env, agent=self.agent, record_dir=f"eval/vids/")

@@ -57,10 +57,27 @@ def main(cfg: DictConfig) -> None:
         agent = instantiate(cfg.agent, env=env)
         log.info(f"created agent: {agent}")
         cb_context = CallbackContext(env, agent)
-        # callbacks = [instantiate(cb_cfg, cb_context) for cb_cfg in cfg.callbacks]
-        # callback_partials = [instantiate(cfg) for cfg in cfg.callbacks]
-        # callbacks = [cb(ctx=cb_context) for cb in callback_partials]
-        callbacks = [cb(ctx=cb_context) for cb in instantiate(cfg.callbacks)]
+
+        # partials = instantiate(cfg.callbacks)
+        # for p in partials:
+        #     log.info(f"partials: {p}")
+        #     log.info(type(p))
+        #     log.info(f"logging partials: \n {p, p.keywords}")
+
+        # callbacks = [cb(ctx=cb_context) for cb in instantiate(cfg.callbacks)]
+
+
+        partials = {
+            name: instantiate(cfg)
+            for name, cfg in cfg.callbacks.items()
+        }
+
+        callbacks = [p(ctx=cb_context) for p in partials.values()]
+
+        # partials = instantiate(cfg.callbacks)
+        # callbacks = [cb(ctx=cb_context) for cb in partials.values()]
+
+
         log.info(f"{callbacks=}")
         schedule = instantiate(cfg.schedule)
         log.info(f"created schedule:  {schedule}")

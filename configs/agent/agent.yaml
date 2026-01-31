@@ -1,0 +1,5 @@
+_target_: agents.VectorDqn_agent.VectorDeepQLearningAgent 
+epsilon_schedule: 
+  _target_: exploration.decay_schedules.ExponentialDecaySchedule
+env: Null
+# _partial_: True

@@ -1,0 +1,8 @@
+# callbacks/default.yaml
+defaults:
+  - evaluation@eval
+  - metrics@metrics
+
+# - evaluation@callbacks.eval
+# - metrics@callbacks.metrics
+
