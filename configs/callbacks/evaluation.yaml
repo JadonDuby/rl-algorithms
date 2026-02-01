@@ -1,0 +1,3 @@
+_target_: callbacks.vec_callback.VecEvaluationCallback
+_partial_: True
+eval_interval: 200

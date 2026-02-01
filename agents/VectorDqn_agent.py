@@ -48,12 +48,14 @@ class DQN(nn.Module):
         return self.layer3(x)
    
 class VectorDeepQLearningAgent(BaseAgent):
-    def __init__(self, envs, epsilon_schedule):  
+    def __init__(self, env, epsilon_schedule):  
+        print("envs:")
+        print(env)
         self.total_steps = 0
-        self.envs = envs
+        self.envs = env
         self.num_envs = self.envs.num_envs
         self.schedule = epsilon_schedule
-        self.action_space = envs.action_space    
+        self.action_space = self.envs.action_space    
         self.n_actions = self.action_space.nvec[0]
         # self.n_actions = self.envs.single_action_space
         self.BATCH_SIZE = 256
@@ -63,7 +65,7 @@ class VectorDeepQLearningAgent(BaseAgent):
         self.EPS_DECAY = 2500
         self.TAU = 0.005
         self.LR = 6e-4
-        state, info = envs.reset()
+        state, info = self.envs.reset()
         n_observations = state.shape[-1]
         self.policy_net = DQN(n_observations, self.n_actions).to(device)
         self.target_net = DQN(n_observations, self.n_actions).to(device)

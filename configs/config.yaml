@@ -1,0 +1,17 @@
+#config.yaml
+defaults:
+  - _self_
+  - envs: env
+  - agent: agent
+  - callbacks: default
+  
+
+schedule:
+  _target_: exploration.decay_schedules.ExponentialDecaySchedule
+
+# components:
+#     networks:
+#         -
+#     replay_buffer:
+#         - 
+

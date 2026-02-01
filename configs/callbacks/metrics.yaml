@@ -1,0 +1,2 @@
+_target_: callbacks.vec_callback.VecMetricsCallback
+_partial_: True

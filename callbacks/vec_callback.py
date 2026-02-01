@@ -1,24 +1,27 @@
-from callbacks.base_callback import Callback
+from callbacks.base_callback import Callback, CallbackContext
 from evaluation.vec_policy_evaluator import VecPolicyEvaluator
 import numpy as np
 import matplotlib.pyplot as plt
 from pprint import pprint
 
+
 class VecEvaluationCallback(Callback):
-    def __init__(self, envs, agent, policy):
-        self.envs = envs
-        self.agent = agent
-        self.policy = policy
+    def __init__(self, *, ctx: CallbackContext, eval_interval: int=200):
+        super().__init__(ctx)
+        self.env = self.ctx.env
+        self.agent = self.ctx.agent
+        self.eval_interval = eval_interval
 
     def set_trainer(self, trainer):
         self.trainer = trainer
 
     # def on_episode_end(self, ep, episode_duration, interval = 100, eval_episodes = 5, step=None, logs=None):
-    def on_episode_end(self, ctx, interval = 250, eval_episodes = 1):
+    def on_episode_end(self, ctx, interval = 50, eval_episodes = 1):
         ep=ctx.episode
+        interval = self.eval_interval
         if ep % interval == 0 and ep!=0:
             # evaluator = PolicyEvaluator(env=self.env, agent=self.agent, record_dir=f"eval/policy_{self.policy}/inter_train_eval/")
-            evaluator = VecPolicyEvaluator(envs=self.envs, agent=self.agent, record_dir=f"eval/policy_{self.policy}/inter_train_eval/")
+            evaluator = VecPolicyEvaluator(env=self.env, agent=self.agent, record_dir=f"eval/vids/")
             truncated, frames, env = evaluator.evaluate(num_eval_episodes=eval_episodes, file_name=f"ep_{ep}_eval.mp4")
             # return truncated, frames, env
             average_episode_length = np.average(env.episode_lengths)
@@ -27,7 +30,7 @@ class VecEvaluationCallback(Callback):
         return
 
 class VecMetricsCallback:
-    def __init__(self):
+    def __init__(self, ctx):
         self.episode_durations = []
         self.episode_rewards = []
         self.losses = []
