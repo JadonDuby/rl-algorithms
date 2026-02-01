@@ -35,18 +35,6 @@ from hydra.utils import instantiate
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
-
-def convert_to_int_or_default(value: Optional[str], default=None) -> int:
-    """Converts a value to an integer, returning a default if the value is None."""
-    if value is None:
-        return default
-    try:
-        return int(value)
-    except ValueError:
-        # Handle cases where the string is not a valid number (e.g., "abc")
-        print(f"Warning: '{value}' is not a valid integer. Using default: {default}")
-        return default
-
 @hydra.main(config_path="configs", config_name="config", version_base="1.3.2")
 def main(cfg: DictConfig) -> None:
     log.info("Info level message")
